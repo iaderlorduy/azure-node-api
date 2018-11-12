@@ -3,7 +3,7 @@ let HttpStatus = require('http-status-codes');
 
 let app = express();
 
-let gameRoute = require('./routes/game');
+let gameRoute = require('./src/routes/game');
 
 let path = require('path');
 
