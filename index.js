@@ -2,17 +2,12 @@ let express = require('express');
 let HttpStatus = require('http-status-codes');
 
 let app = express();
-
-var http = require('http');
-
-var server = http.createServer(function(request, response) {
-
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    response.end("Hello test deploy!");
-
-});
-
 var port = process.env.PORT || 1337;
-server.listen(port);
 
-console.log("Server running at http://localhost:%d", port);
+app.get('/', (req, res) => {
+  return res.send('hola a todos');
+})
+
+app.listen(PORT, () => {
+  console.info(`Server has started on ${PORT}`)
+})
