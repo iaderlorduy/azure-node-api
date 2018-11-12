@@ -1,3 +1,4 @@
+'use strict';
 var mongoose = require('mongoose');
 var server = 'ds231242.mlab.com:31242';
 var database = 'god';

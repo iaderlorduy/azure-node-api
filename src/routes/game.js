@@ -1,3 +1,4 @@
+'use strict';
 var GameModel = require('../models/game.model');
 var express = require('express');
 var HttpStatus = require('http-status-codes');
