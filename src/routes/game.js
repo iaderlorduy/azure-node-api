@@ -1,8 +1,8 @@
 'use strict';
-let GameModel = require('../models/game.model');
-let express = require('express');
-let HttpStatus = require('http-status-codes');
-let router = express.Router();
+var GameModel = require('../models/game.model');
+var express = require('express');
+var HttpStatus = require('http-status-codes');
+var router = express.Router();
 
 //Create a new game
 //POST localhost:3000/game
@@ -12,7 +12,7 @@ router.post('/game', (req, res) => {
     return res.status(HttpStatus.BAD_REQUEST).send('Request body is missing');
   }
 
-  // let game = {
+  // var game = {
   //   "player1Name": "player 1",
   //   "player2Name": "player 2",
   //   "scorePlayer1": 2,
@@ -21,7 +21,7 @@ router.post('/game', (req, res) => {
   //   "date": "2018/07/07" 
   // }
 
-  let model = new GameModel(req.body);
+  var model = new GameModel(req.body);
   model.save()
     .then(doc => {
       if (!doc || doc.length === 0) {

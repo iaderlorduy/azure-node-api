@@ -1,14 +1,14 @@
 'use strict';
-let express = require('express');
-let HttpStatus = require('http-status-codes');
+var express = require('express');
+var HttpStatus = require('http-status-codes');
 
-let app = express();
+var app = express();
 
-let gameRoute = require('./routes/game');
+var gameRoute = require('./src/routes/game');
 
-let path = require('path');
+var path = require('path');
 
-let bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
