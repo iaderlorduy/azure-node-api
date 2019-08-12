@@ -1,47 +1,46 @@
-// const gameRouter = require('./routes/gameRouter');
-import gameRouter from './routes/gameRouter';
+'use strict';
+var express = require('express');
+var HttpStatus = require('http-status-codes');
 
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+var app = express();
 
-const app = express();
+var gameRoute = require('./src/routes/game');
 
-const corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+var path = require('path');
 
-app.use(cors(corsOptions));
+var bodyParser = require('body-parser');
 
-if (process.env.NODE_ENV === 'development') {
-  // eslint-disable-next-line no-unused-vars
-  const db = mongoose.connect('mongodb://root:abc123@ds231242.mlab.com:31242/god', {
-    useNewUrlParser: true,
-  });
-} else {
-  console.log('this is a test');
-  // eslint-disable-next-line no-unused-vars
-  const db = mongoose.connect('mongodb://root:abc123@ds261277.mlab.com:61277/godtest', {
-    useNewUrlParser: true,
-  });
-}
-const port = process.env.PORT || 1337;
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api', gameRouter);
+app.use((req, res, next) => {
+  console.log(`${new Date().toString()} => ${req.originalUrl}`, req.body);
+  next();
+})
 
-app.get('/', (req, res) => {
-  res.send('Welcome to my API!');
-});
+app.use(gameRoute);
+app.use(express.static('./public'));
 
-// agregar middleware para el manejo de las excepciones
+// Handler for 404 - Resource not found
+app.use((req, res, next) => {
+  res.status(HttpStatus.NOT_FOUND).send('Resource not found');
+  next();
+})
 
-app.server = app.listen(port, () => {
-  console.log(`Running on port ${port}`);
-});
+// Handler for 500 - 
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.sendFile(path.join(__dirname, '../public/Error.html'))
+})
 
-module.exports = app;
+
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.info(`Server has started on ${PORT}`)
+})
